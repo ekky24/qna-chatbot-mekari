@@ -6,6 +6,7 @@ import config
 st.title("Q&A Chatbot Interface")
 
 if "messages" not in st.session_state:
+    _ = requests.get(f'{config.SERVICE_URL}/init')
     st.session_state.messages = []
 
 for message in st.session_state.messages:
@@ -20,7 +21,7 @@ if prompt := st.chat_input("What is on your mind?"):
     payload = {
         "msg": prompt, 
     }
-    response = requests.post(config.SERVICE_URL, json=payload)
+    response = requests.post(f"{config.SERVICE_URL}/chat", json=payload)
     response = response.json()['response']
 
     with st.chat_message("assistant"):
