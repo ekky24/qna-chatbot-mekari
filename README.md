@@ -36,7 +36,7 @@ The system consists of several key components:
 
 ### External Dependencies
 
-- **Ollama**: Local LLM server (models: `qwen3:4b`, `qwen3-embedding:4b`)
+- **Ollama**: Local LLM server (models: `qwen3:14b`, `qwen3-embedding:4b`)
 - **MySQL Database**: Contains credit card transaction data (fraudulent and legitimate)
 
 ## Installation
