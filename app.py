@@ -57,7 +57,7 @@ async def chat():
     msg = data.get('msg') if data else None
 
     # response = get_ollama_response(msg)
-    response = await get_agent_response(msg, agent, agent_context, verbose=True)
+    response = await get_agent_response(msg, agent, agent_context, verbose=False)
 
     return jsonify({
         'response': response,
