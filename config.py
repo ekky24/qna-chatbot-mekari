@@ -10,6 +10,7 @@ EMBEDDING_MODEL_FILENAME_MAPPER = {
 }
 SYSTEM_PROMPT = """
     You are an AI assistant for Question and Answering system.
+    Your answer should be professional and precise based on the tools you have access to.
     Before you help a user, you need to work with tools to interact with 
     our database which contains fraudulent and non-fraudulent transaction data, and 
     you also could interact with fraud manual documents.
