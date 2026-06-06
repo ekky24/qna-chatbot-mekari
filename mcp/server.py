@@ -3,11 +3,16 @@ import os
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 )
+# pyrefly: ignore [missing-import]
 from mcp.server.fastmcp import FastMCP
 from db_connector import connect_db, close_conn
+# pyrefly: ignore [missing-import]
 from llama_index.core import StorageContext, load_index_from_storage
+# pyrefly: ignore [missing-import]
 from llama_index.embeddings.ollama import OllamaEmbedding
+# pyrefly: ignore [missing-import]
 from llama_index.core import Settings
+# pyrefly: ignore [missing-import]
 from llama_index.core.postprocessor import SimilarityPostprocessor
 import config
 
@@ -75,15 +80,12 @@ def search_fraud_manuals(query: str) -> str:
     Returns:
         str: The search results from the fraud manual documents.
     """
-    if "qwen3" in config.EMBEDDING_MODEL_NAME:
-        embed_model = OllamaEmbedding(
-            model_name=config.EMBEDDING_MODEL_NAME,
-            base_url=config.MODEL_URL,
-        )
-        Settings.embed_model = embed_model
-        Settings.llm = None
-    else:
-        raise ValueError("Unsupported embedding model") 
+    embed_model = OllamaEmbedding(
+        model_name=config.EMBEDDING_MODEL_NAME,
+        base_url=config.MODEL_URL,
+    )
+    Settings.embed_model = embed_model
+    Settings.llm = None
 
     storage_context = StorageContext.from_defaults(persist_dir=\
         f"storage_{config.EMBEDDING_MODEL_FILENAME_MAPPER[config.EMBEDDING_MODEL_NAME]}")

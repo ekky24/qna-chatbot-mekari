@@ -1,3 +1,4 @@
+# pyrefly: ignore [missing-import]
 import mysql.connector
 
 def connect_db():
@@ -5,7 +6,7 @@ def connect_db():
         host="localhost",
         user="root",
         password="P@ssw0rd",
-        database="qna_chatbot_mekari",
+        database="qna_chatbot",
         port=3306
     )
     cursor = conn.cursor()

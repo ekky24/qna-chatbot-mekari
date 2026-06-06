@@ -1,15 +1,14 @@
+# pyrefly: ignore [missing-import]
 from llama_index.core import VectorStoreIndex, SimpleDirectoryReader
+# pyrefly: ignore [missing-import]
 from llama_index.core.node_parser import SentenceSplitter
+# pyrefly: ignore [missing-import]
 from llama_index.embeddings.ollama import OllamaEmbedding
 import config
-
-if "qwen3" in config.EMBEDDING_MODEL_NAME:
-    embed_model = OllamaEmbedding(
-        model_name=config.EMBEDDING_MODEL_NAME,
-        base_url=config.MODEL_URL,
-    )
-else:
-    raise ValueError("Unsupported embedding model") 
+embed_model = OllamaEmbedding(
+    model_name=config.EMBEDDING_MODEL_NAME,
+    base_url=config.MODEL_URL,
+)
 
 # Load documents from the specified directory
 documents = SimpleDirectoryReader("raw_data/fraud_document").load_data()

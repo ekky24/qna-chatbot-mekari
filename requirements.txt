@@ -104,7 +104,6 @@ opentelemetry-sdk==1.39.1
 opentelemetry-semantic-conventions==0.60b1
 orjson==3.11.6
 overrides==7.7.0
-packaging @ file:///C:/miniconda3/conda-bld/packaging_1761049137378/work
 pandas==2.3.3
 pillow==12.1.0
 platformdirs==4.5.1
@@ -131,7 +130,6 @@ python-dateutil==2.9.0.post0
 python-dotenv==1.2.1
 python-multipart==0.0.22
 pytz==2025.2
-pywin32==311
 PyYAML==6.0.3
 referencing==0.37.0
 regex==2026.1.15

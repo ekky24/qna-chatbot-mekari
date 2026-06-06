@@ -1,12 +1,14 @@
 SERVICE_URL = 'http://localhost:5000'
 MCP_SERVER_URL = 'http://localhost:4000/sse'
-MODEL_URL = 'http://192.168.98.202:11434'
+MODEL_URL = 'http://localhost:11434'
 
-MODEL_NAME = 'qwen3:14b'
-EMBEDDING_MODEL_NAME = 'qwen3-embedding:4b'
+MODEL_NAME = 'gemma4:12b-mlx'
+EMBEDDING_MODEL_NAME = 'embeddinggemma'
 
 EMBEDDING_MODEL_FILENAME_MAPPER = {
     'qwen3-embedding:4b': 'qwen3',
+    'nomic-embed-text': 'nomic',
+    'embeddinggemma': 'gemma',
 }
 SYSTEM_PROMPT = """
     You are an AI assistant for Question and Answering system designed to assist with fraud detection and analysis.
