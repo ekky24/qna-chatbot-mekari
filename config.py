@@ -3,7 +3,7 @@ MCP_SERVER_URL = 'http://localhost:4000/sse'
 MODEL_URL = 'http://localhost:11434'
 
 MODEL_NAME = 'gemma4:12b-mlx'
-EMBEDDING_MODEL_NAME = 'embeddinggemma'
+EMBEDDING_MODEL_NAME = 'qwen3-embedding:4b'
 
 EMBEDDING_MODEL_FILENAME_MAPPER = {
     'qwen3-embedding:4b': 'qwen3',

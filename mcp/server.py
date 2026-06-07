@@ -14,6 +14,7 @@ from llama_index.embeddings.ollama import OllamaEmbedding
 from llama_index.core import Settings
 # pyrefly: ignore [missing-import]
 from llama_index.core.postprocessor import SimilarityPostprocessor
+import mysql.connector
 import config
 
 mcp = FastMCP('qna-mekari-mcp')

@@ -1,15 +1,23 @@
+# pyrefly: ignore [missing-import]
 import nest_asyncio
 nest_asyncio.apply()
+# pyrefly: ignore [missing-import]
 from llama_index.llms.ollama import Ollama
+# pyrefly: ignore [missing-import]
 from llama_index.core import Settings
+# pyrefly: ignore [missing-import]
 from llama_index.tools.mcp import BasicMCPClient, McpToolSpec
+# pyrefly: ignore [missing-import]
 from llama_index.core.agent.workflow import FunctionAgent
+# pyrefly: ignore [missing-import]
 from llama_index.core.agent.workflow import (
     FunctionAgent, 
     ToolCallResult, 
     ToolCall)
+# pyrefly: ignore [missing-import]
 from llama_index.core.workflow import Context
 import config
+# pyrefly: ignore [missing-import]
 from flask import Flask, request, jsonify
 from utils.connect_llm import get_ollama_response, get_agent, get_agent_response
 
@@ -57,7 +65,7 @@ async def chat():
     msg = data.get('msg') if data else None
 
     # response = get_ollama_response(msg)
-    response = await get_agent_response(msg, agent, agent_context, verbose=False)
+    response = await get_agent_response(msg, agent, agent_context, verbose=True)
 
     return jsonify({
         'response': response,
