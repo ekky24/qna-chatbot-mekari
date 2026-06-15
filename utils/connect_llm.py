@@ -2,9 +2,11 @@ import requests
 from llama_index.tools.mcp import McpToolSpec
 from llama_index.core.agent.workflow import FunctionAgent
 from llama_index.core.agent.workflow import (
-    FunctionAgent, 
-    ToolCallResult, 
-    ToolCall)
+    FunctionAgent,
+    ToolCallResult,
+    ToolCall,
+    AgentStream,
+)
 from llama_index.core.workflow import Context
 import config
 
@@ -48,3 +50,27 @@ async def get_agent_response(
 
     response = await handler
     return str(response)
+
+async def stream_agent_response(
+    message_content: str,
+    agent: FunctionAgent,
+    agent_context: Context,
+    verbose: bool = False,
+):
+    handler = agent.run(message_content, ctx=agent_context)
+    async for event in handler.stream_events():
+        if type(event) == ToolCall:
+            if verbose:
+                print(f"Calling tool {event.tool_name} with kwargs {event.tool_kwargs}")
+            yield ('status', f'Calling tool: {event.tool_name}')
+        elif type(event) == ToolCallResult:
+            if verbose:
+                print(f"Tool {event.tool_name} returned {event.tool_output}")
+            yield ('status', f'Done: {event.tool_name}')
+        elif type(event) == AgentStream:
+            if event.thinking_delta:
+                yield ('thinking', event.thinking_delta)
+            if event.delta:
+                yield ('token', event.delta)
+
+    await handler

@@ -1,10 +1,14 @@
 import sys
 import os
+
+# Import mcp BEFORE adding the project root to sys.path, otherwise the local
+# mcp/ directory shadows the installed mcp package as a namespace package.
+# pyrefly: ignore [missing-import]
+from mcp.server.fastmcp import FastMCP
+
 sys.path.append(
     os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 )
-# pyrefly: ignore [missing-import]
-from mcp.server.fastmcp import FastMCP
 from db_connector import connect_db, close_conn
 # pyrefly: ignore [missing-import]
 from llama_index.core import StorageContext, load_index_from_storage
