@@ -42,8 +42,10 @@ An AI-powered Question & Answer chatbot for credit card fraud detection and anal
 | `mcp/server.py` | FastMCP server exposing `read_transaction` (SQL) and `search_fraud_manuals` (RAG) tools |
 | `mcp/db_connector.py` | MySQL connection helpers |
 | `utils/connect_llm.py` | LlamaIndex agent setup and `stream_agent_response` async generator |
+| `utils/create_table.py` | One-time script to create the `qna_chatbot` database and `transactions` table |
+| `utils/insert_data.py` | One-time script to load the first 10,000 rows of `fraudTrain.csv` into the database |
 | `build_rag.py` | One-time script to embed the fraud PDF and persist the vector index |
-| `evaluate.py` | Benchmark runner — measures semantic similarity against reference Q&A pairs |
+| `evaluate.py` | Benchmark runner — measures semantic similarity against reference Q&A pairs (requires `qwen3-embedding:4b`) |
 | `config.py` | Central configuration (URLs, model names, system prompt) |
 
 ---
@@ -67,8 +69,8 @@ ollama pull qwen3-embedding:4b    # embeddings for RAG
 ## Installation
 
 ```bash
-git clone https://github.com/ekky24/qna-chatbot-mekari.git
-cd qna-chatbot-mekari
+git clone https://github.com/ekky24/qna-chatbot.git
+cd qna-chatbot
 
 conda create -n qna-chatbot python=3.12
 conda activate qna-chatbot
@@ -78,9 +80,16 @@ pip install -r requirements.txt
 
 ### Database setup
 
-1. Create the `qna_chatbot` database in MySQL.
-2. Import the transaction data from `dataset/fraudTrain.csv` and `dataset/fraudTest.csv`.
-3. Update credentials in `mcp/db_connector.py` if they differ from the defaults (`root` / `P@ssw0rd` / `localhost:3306`).
+1. Create the database and `transactions` table:
+   ```bash
+   conda activate qna-chatbot
+   python utils/create_table.py
+   ```
+2. Load the first 10,000 rows of training data:
+   ```bash
+   python utils/insert_data.py
+   ```
+3. Update credentials in `mcp/db_connector.py` and `utils/create_table.py` / `utils/insert_data.py` if they differ from the defaults (`root` / `P@ssw0rd` / `localhost:3306`).
 
 ### Build the RAG index
 
@@ -204,7 +213,7 @@ Scores are computed using cosine similarity between the chatbot's response embed
 ## Project Structure
 
 ```
-qna-chatbot-mekari/
+qna-chatbot/
 ├── app.py                     # Flask API + persistent async event loop
 ├── build_rag.py               # RAG index builder (run once)
 ├── config.py                  # Central configuration
@@ -214,15 +223,21 @@ qna-chatbot-mekari/
 ├── dataset/
 │   ├── fraudTrain.csv         # Training transaction data
 │   └── fraudTest.csv          # Test transaction data
+├── docs/
+│   ├── screenshot*.png        # UI screenshots
+│   └── video_url.txt          # Demo video link
 ├── raw_data/
 │   └── fraud_document/
 │       └── fraud_docs.pdf     # Fraud manual source document
 ├── mcp/
 │   ├── server.py              # FastMCP server (SQL + RAG tools)
 │   ├── db_connector.py        # MySQL helpers
-│   └── storage_qwen3/         # Persisted vector index
+│   ├── storage_qwen3/         # Persisted vector index (qwen3-embedding:4b)
+│   └── storage_gemma/         # Persisted vector index (embeddinggemma)
 └── utils/
-    └── connect_llm.py         # Agent factory + streaming generator
+    ├── connect_llm.py         # Agent factory + streaming generator
+    ├── create_table.py        # DB + table creation helper (run once)
+    └── insert_data.py         # CSV → MySQL loader (first 10k rows, run once)
 ```
 
 ---
